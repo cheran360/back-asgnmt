@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
+
 # Create your views here.
 
 @api_view(['POST'])
@@ -12,6 +13,7 @@ def createRecord(request):
     data = request.data
     try:
         record = Record.objects.create(
+            image=data.get('image'),
             name=data.get('name'),
             species=data.get('species'),
             weight=data.get('weight'),
@@ -20,10 +22,6 @@ def createRecord(request):
             longitude=data.get('longitude'),
         )
 
-        # should add some code here for resize of image
-        # ----------------------------------------------------------------
-
-        # ----------------------------------------------------------------
         record.save()
         return Response({"message":"record added successfully"}, status=status.HTTP_201_CREATED)
     except:
