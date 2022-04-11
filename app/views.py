@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
+from .serializers import *
 # Create your views here.
 
 @api_view(['POST'])
@@ -19,8 +20,21 @@ def createRecord(request):
             longitude=data.get('longitude'),
         )
 
+        # should add some code here for resize of image
+        # ----------------------------------------------------------------
+
+        # ----------------------------------------------------------------
         record.save()
         return Response({"message":"record added successfully"}, status=status.HTTP_201_CREATED)
     except:
         return Response({"message":"error in record u added"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getAllRecords(request):
+    try:
+        allRecords = Record.objects.all()
+        serializer = RecordSerializer(allRecords, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except:
+        return Response({"message":"error in finding all records"}, status=status.HTTP_400_BAD_REQUEST)
 
