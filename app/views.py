@@ -6,26 +6,36 @@ from rest_framework.response import Response
 from .models import *
 from .serializers import *
 
+# modules required for image adjusting
+from PIL import Image
+import os
+import PIL
+import glob
+from django.conf import settings
+
+
 # Create your views here.
 
 @api_view(['POST'])
 def createRecord(request):
     data = request.data
-    try:
-        record = Record.objects.create(
-            image=data.get('image'),
-            name=data.get('name'),
-            species=data.get('species'),
-            weight=data.get('weight'),
-            length=data.get('length'),
-            latitude=data.get('latitude'),
-            longitude=data.get('longitude'),
-        )
 
-        record.save()
-        return Response({"message":"record added successfully"}, status=status.HTTP_201_CREATED)
-    except:
-        return Response({"message":"error in record u added"}, status=status.HTTP_400_BAD_REQUEST)
+    # try:
+
+    record = Record.objects.create(
+        image=data.get('image'),
+        name=data.get('name'),
+        species=data.get('species'),
+        weight=data.get('weight'),
+        length=data.get('length'),
+        latitude=data.get('latitude'),
+        longitude=data.get('longitude'),
+    )
+
+    record.save()
+    return Response({"message":"record added successfully"}, status=status.HTTP_201_CREATED)
+    # except:
+        # return Response({"message":"error in record u added"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def getAllRecords(request):

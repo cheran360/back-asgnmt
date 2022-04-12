@@ -1,4 +1,8 @@
+import sys
 from django.db import models
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your models here.
 class Record(models.Model):
@@ -10,7 +14,5 @@ class Record(models.Model):
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return self.name
-
